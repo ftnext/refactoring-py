@@ -22,6 +22,10 @@ class PriceTestCase(unittest.TestCase):
             (self.Order(quantity=400, item_price=100), 40100),
             # no quantity discount / discounted shipping
             (self.Order(quantity=5, item_price=100), 550),
+            # quality discount / normal shipping
+            (self.Order(quantity=600, item_price=100), 59600),
+            # quality discount / discounted shipping
+            (self.Order(quantity=600, item_price=1), 655),
         ]:
             with self.subTest(order=order, expected=expected):
                 actual = price(order)
