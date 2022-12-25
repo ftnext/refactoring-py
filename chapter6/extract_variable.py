@@ -21,6 +21,11 @@ class PriceTestCase(unittest.TestCase):
 
         self.assertEqual(actual, 40100)
 
+    def test_no_discount_but_smaller_shipping(self):
+        actual = price(self.Order(quantity=100, item_price=5))
+
+        self.assertEqual(actual, 550)
+
 
 if __name__ == "__main__":
     unittest.main()
