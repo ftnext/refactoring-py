@@ -48,7 +48,7 @@ class Order:
         return (
             self.base_price
             - max(0, self.quantity - 500) * self.item_price * 0.05
-            + min(self.quantity * self.item_price * 0.1, 100)
+            + min(self.base_price * 0.1, 100)
         )
 
     @property
