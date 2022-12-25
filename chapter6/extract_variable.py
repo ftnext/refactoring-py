@@ -52,5 +52,27 @@ class Order:
         )
 
 
+class OrderTestCase(unittest.TestCase):
+    class Record(NamedTuple):
+        quantity: int
+        item_price: int
+
+    def test_price_parametrize(self):
+        for record, expected in [
+            # no quantity discount / normal shipping
+            (self.Record(quantity=400, item_price=100), 40100),
+            # no quantity discount / discounted shipping
+            (self.Record(quantity=5, item_price=100), 550),
+            # quality discount / normal shipping
+            (self.Record(quantity=600, item_price=100), 59600),
+            # quality discount / discounted shipping
+            (self.Record(quantity=600, item_price=1), 655),
+        ]:
+            with self.subTest(order=record, expected=expected):
+                actual = price(record)
+
+                self.assertEqual(actual, expected)
+
+
 if __name__ == "__main__":
     unittest.main()
