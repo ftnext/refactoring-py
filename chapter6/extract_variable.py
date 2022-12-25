@@ -47,13 +47,17 @@ class Order:
     def price(self):
         return (
             self.base_price
-            - max(0, self.quantity - 500) * self.item_price * 0.05
+            - self.quantity_discount
             + min(self.base_price * 0.1, 100)
         )
 
     @property
     def base_price(self):
         return self.quantity * self.item_price
+
+    @property
+    def quantity_discount(self):
+        return max(0, self.quantity - 500) * self.item_price * 0.05
 
 
 class OrderTestCase(unittest.TestCase):
