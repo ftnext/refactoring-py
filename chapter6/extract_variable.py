@@ -16,15 +16,17 @@ class PriceTestCase(unittest.TestCase):
         quantity: int
         item_price: int
 
-    def test_no_discount_normal_shipping(self):
-        actual = price(self.Order(quantity=100, item_price=400))
+    def test_price_parametrize(self):
+        for order, expected in [
+            # no quantity discount / normal shipping
+            (self.Order(quantity=400, item_price=100), 40100),
+            # no quantity discount / discounted shipping
+            (self.Order(quantity=5, item_price=100), 550),
+        ]:
+            with self.subTest(order=order, expected=expected):
+                actual = price(order)
 
-        self.assertEqual(actual, 40100)
-
-    def test_no_discount_but_smaller_shipping(self):
-        actual = price(self.Order(quantity=100, item_price=5))
-
-        self.assertEqual(actual, 550)
+                self.assertEqual(actual, expected)
 
 
 if __name__ == "__main__":
